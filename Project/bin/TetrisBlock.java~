@@ -1,0 +1,92 @@
+package test;
+
+import java.awt.*;
+
+public class TetrisBlock { // tetrominos (blocks)
+	int [][] shape;
+	Color color;
+	int x, y;
+	boolean isPlaced; // if block has fallen and has been placed
+	int currRotation;
+	int [][][] rotations;
+  
+	public TetrisBlock(int[][] shape, Color color) {
+		this.shape = shape;
+	    this.color = color;
+	    
+	    createRotations();
+	    shape = rotations[currRotation];
+	    currRotation = 0;
+	    
+	    x = 130;
+	    y = 120;
+	    
+	    isPlaced = false;
+    }
+	  
+	public void createRotations() {
+	    rotations = new int[4][][];
+	    for (int i = 0; i < 4; i++) {
+	      
+	      int r = shape[0].length;
+	      int c = shape.length;
+	        
+	      rotations[i] = new int [r][c];
+	      
+	      for (int y = 0; y < r; y++) {
+	        for (int x = 0; x < c; x++) {
+	          rotations[i][y][x] = shape[c - x - 1][y];
+	        }
+	      }
+	      shape = rotations[i];
+	    }
+	}
+	
+	public int[][] getShape() {
+	    return shape;
+	}
+	public Color getColor() {
+	    return color;
+	}
+	public int getHeight() {
+	    return shape.length;
+	}
+	public int getWidth() {
+	    return shape[0].length;
+	}
+	public int getX() {
+	    return x;
+	}
+	  public int getGridX() {
+	    return (x-50)/20;
+	  }
+	  public int getY() {
+	    return y;
+	    }
+	  public int getGridY() {
+	    return (y-120 + (shape.length*20))/20;
+	  }
+	  public boolean isPlaced() {
+	    return isPlaced;
+	  }
+	  public void drop() {
+	    y += 20;
+	  }
+	  public void left() {
+	    x -= 20;
+	  }
+	  public void right() {
+	    x += 20;
+	  }
+	  
+	  public String toString(){
+	    return x+", "+y;
+	  }
+	  public void rotate() {
+	    currRotation++;
+	    if (currRotation > 3) {
+	      currRotation = 0;
+	    }
+	    shape = rotations[currRotation];
+	  }
+}
